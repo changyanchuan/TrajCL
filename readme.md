@@ -4,11 +4,13 @@
 This is a pytorch implementation of the [TrajCL paper](https://arxiv.org/pdf/2210.05155.pdf):
 
 ```
-@article{chang2022contrastive,
+@inproceedings{chang2023contrastive,
   title={Contrastive Trajectory Similarity Learning with Dual-Feature Attention},
   author={Chang, Yanchuan and Qi, Jianzhong and Liang, Yuxuan and Tanin, Egemen},
-  journal={arXiv preprint arXiv:2210.05155},
-  year={2022}
+  booktitle={2023 IEEE 39th International Conference on Data Engineering (ICDE)},
+  pages={2933--2945},
+  year={2023},
+  organization={IEEE}
 }
 ```
 
