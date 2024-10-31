@@ -11,4 +11,4 @@ torch_geometric==1.7.0
 torch_scatter==2.0.7
 torch_sparse==0.6.9
 torch_spline_conv==1.2.1
-traj_dist==1.15
+traj_dist==1.1
