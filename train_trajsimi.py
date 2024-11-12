@@ -32,7 +32,7 @@ def main():
     task = TrajSimi(trajcl)
     tasktrain = task.train()
     metrics.add(tasktrain)
-    pred_l1_simi_np,truth_l1_simi_np = tasktrain[-2],trasktrain[-1]
+    pred_l1_simi_np,truth_l1_simi_np = tasktrain['pred_l1_simi_np'],trasktrain['truth_l1_simi_np']
     # Ensure that the directory exists
     log_dir = os.path.join(Config.root_dir, 'exp', 'log')
     if not os.path.exists(log_dir):
