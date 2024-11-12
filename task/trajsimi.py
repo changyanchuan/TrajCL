@@ -155,7 +155,9 @@ class TrajSimi:
                 'task_test_time': test_endtime - test_starttime, \
                 'task_test_gpu': test_metrics[4], \
                 'task_test_ram': test_metrics[5], \
-                'hr5':test_metrics[1], 'hr20':test_metrics[2], 'hr20in5':test_metrics[3]}
+                'hr5':test_metrics[1], 'hr20':test_metrics[2], 'hr20in5':test_metrics[3], \
+                'pred_l1_simi_np':test_metrics[6], \
+                'truth_l1_simi_np':test_metrics[7]}
 
 
     @torch.no_grad()
@@ -189,7 +191,11 @@ class TrajSimi:
         truth_l1_simi = datasets_simi
         pred_l1_simi_seq = pred_l1_simi[torch.triu(torch.ones(pred_l1_simi.shape), diagonal = 1) == 1]
         truth_l1_simi_seq = truth_l1_simi[torch.triu(torch.ones(truth_l1_simi.shape), diagonal = 1) == 1]
-
+        
+        # ดึง similarity matrix เป็น numpy array
+        pred_l1_simi_np = pred_l1_simi.cpu().numpy()
+        truth_l1_simi_np = truth_l1_simi.cpu().numpy()
+        
         # metrics
         loss = self.criterion(pred_l1_simi_seq, truth_l1_simi_seq)
         hrA = TrajSimi.hitting_ratio(pred_l1_simi, truth_l1_simi, 5, 5)
@@ -198,7 +204,7 @@ class TrajSimi:
         gpu = tool_funcs.GPUInfo.mem()[0]
         ram = tool_funcs.RAMInfo.mem()
 
-        return loss.item(), hrA, hrB, hrBinA, gpu, ram
+        return loss.item(), hrA, hrB, hrBinA, gpu, ram, pred_l1_simi_np, truth_l1_simi_np
 
   
     # data generator - for test
