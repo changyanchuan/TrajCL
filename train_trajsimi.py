@@ -32,8 +32,11 @@ def main():
     trajcl.to(Config.device)
     task = TrajSimi(trajcl)
     tasktrain = task.train()
-    metrics.add(tasktrain)
     pred_l1_simi_np,truth_l1_simi_np = tasktrain['pred_l1_simi_np'],trasktrain['truth_l1_simi_np']
+    # ลบ key และ value ออกจาก dictionary
+    del tasktrain['pred_l1_simi_np']
+    del tasktrain['truth_l1_simi_np']
+    metrics.add(tasktrain)
     # Ensure that the directory exists
     log_dir = os.path.join(Config.root_dir, 'exp', 'log')
     if not os.path.exists(log_dir):
