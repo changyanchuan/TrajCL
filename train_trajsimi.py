@@ -1,7 +1,8 @@
 import sys
 import logging
 import argparse
-
+import os
+import numpy as np
 from config import Config
 from utils import tool_funcs
 from task.trajsimi import TrajSimi
