@@ -30,8 +30,22 @@ def main():
     trajcl.load_checkpoint()
     trajcl.to(Config.device)
     task = TrajSimi(trajcl)
-    metrics.add(task.train())
+    tasktrain = task.train()
+    metrics.add(tasktrain)
+    pred_l1_simi_np,truth_l1_simi_np = tasktrain[-2],trasktrain[-1]
+    # Ensure that the directory exists
+    log_dir = os.path.join(Config.root_dir, 'exp', 'log')
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
 
+    # Define file paths
+    pred_file_path = os.path.join(log_dir, 'pred_l1_simi.npy')
+    truth_file_path = os.path.join(log_dir, 'truth_l1_simi.npy')
+
+    # Save the arrays as .npy files in the log folder
+    np.save(pred_file_path, pred_l1_simi_np)
+    np.save(truth_file_path, truth_l1_simi_np)
+    
     logging.info('[EXPFlag]model={},dataset={},fn={},{}'.format( \
                 enc_name, Config.dataset_prefix, fn_name, str(metrics)))
     return
