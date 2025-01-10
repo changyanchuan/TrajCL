@@ -22,8 +22,8 @@ from model.node2vec_ import train_node2vec
 from utils.edwp import edwp
 from utils.data_loader import read_trajsimi_traj_dataset
 
-
-def inrange(lon, lat): #เช็คว่าอยู่ในช่วงมั้ย 
+#เช็คว่าอยู่ในช่วงมั้ย 
+def inrange(lon, lat): 
     if lon <= Config.min_lon or lon >= Config.max_lon \
             or lat <= Config.min_lat or lat >= Config.max_lat:
         return False
