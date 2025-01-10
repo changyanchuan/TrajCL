@@ -31,11 +31,13 @@ def inrange(lon, lat):
 
 
 def clean_and_output_data():
-    _time = time.time()
+    # 1. บันทึกเวลาเริ่มต้น
+    _time = time.time() 
     # https://archive.ics.uci.edu/ml/machine-learning-databases/00339/
     # download train.csv.zip and unzip it. rename train.csv to porto.csv
+     # 2. โหลดข้อมูลจากไฟล์ CSV
     dfraw = pd.read_csv(Config.root_dir + '/data/porto.csv')
-    dfraw = dfraw.rename(columns = {"POLYLINE": "wgs_seq"})
+    dfraw = dfraw.rename(columns = {"POLYLINE": "wgs_seq"}) # เปลี่ยนชื่อคอลัมน์ "POLYLINE" เป็น "wgs_seq"
 
     dfraw = dfraw[dfraw.MISSING_DATA == False]
 
@@ -50,7 +52,7 @@ def clean_and_output_data():
     dfraw = dfraw[dfraw.inrange == True]
     logging.info('Preprocessed-rm range. #traj={}'.format(dfraw.shape[0]))
 
-    # convert to Mercator
+    # convert to Mercator  # 6. แปลงพิกัดเส้นทาง (WGS84) เป็นระบบเมอร์เคเตอร์ (Mercator)
     dfraw['merc_seq'] = dfraw.wgs_seq.apply(lambda traj: [list(lonlat2meters(p[0], p[1])) for p in traj])
 
     logging.info('Preprocessed-output. #traj={}'.format(dfraw.shape[0]))
