@@ -295,7 +295,7 @@ if __name__ == '__main__':
     Config.dataset = 'porto'
     Config.post_value_updates()
 
-    # clean_and_output_data()
+    clean_and_output_data()
     # init_cellspace()
     # generate_newsimi_test_dataset()
-    traj_simi_computation('edwp') # edr edwp discret_frechet hausdorff
+    # traj_simi_computation('edwp') # edr edwp discret_frechet hausdorff
