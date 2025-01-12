@@ -292,9 +292,9 @@ if __name__ == '__main__':
                         handlers = [logging.FileHandler(Config.root_dir+'/exp/log/'+tool_funcs.log_file_name(), mode = 'w'), 
                                     logging.StreamHandler()]
                         )
-    Config.dataset = 'porto'
-    Config.post_value_updates()
-
+    # Config.dataset = 'porto'
+    # Config.post_value_updates()
+    print('HELLO WORLD)
     # clean_and_output_data()
     # init_cellspace()
     # generate_newsimi_test_dataset()
