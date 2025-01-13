@@ -1,5 +1,10 @@
 import sys
 sys.path.append('..')
+sys.path.append('/content/TrajCL')
+sys.path.append('/content/traj-dist')
+sys.path.append('/content/traj-dist/traj_dist')
+sys.path.append('/content/traj-dist/traj_dist/cydist')
+sys.path.append('/content/traj-dist/traj_dist/pydist')
 import os
 import math
 import time
