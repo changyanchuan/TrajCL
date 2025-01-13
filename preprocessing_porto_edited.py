@@ -299,7 +299,7 @@ if __name__ == '__main__':
                         )
     # Config.dataset = 'porto'
     # Config.post_value_updates()
-    print('HELLO WORLD)
+    print('HELLO WORLD')
     # clean_and_output_data()
     # init_cellspace()
     # generate_newsimi_test_dataset()
