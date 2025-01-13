@@ -51,6 +51,29 @@ def clean_and_output_data():
     dfraw['trajlen'] = dfraw.wgs_seq.apply(lambda traj: len(traj))
     dfraw = dfraw[(dfraw.trajlen >= Config.min_traj_len) & (dfraw.trajlen <= Config.max_traj_len)]
     logging.info('Preprocessed-rm length. #traj={}'.format(dfraw.shape[0]))
+    # calc min,max (lon,lat ) (x,y) ##################################
+    min_x_set = list()
+    max_x_set = list()
+    for i in dfraw['wgs_seq']:
+        min_x_set.append(sorted([j[0] for j in i])[0]) 
+        #print(sorted([j[0] for j in i]))
+        max_x_set.append(sorted([j[0] for j in i])[-1])
+    min_lon = sorted(min_x_set)[0]
+    max_lon = sorted(max_x_set)[-1]
+    #print(min_lon,max_lon)
+
+    # calc min,max lat
+    min_y_set = list()
+    max_y_set = list()
+    for i in dfraw['wgs_seq']:
+        min_y_set.append(sorted([j[1] for j in i])[0]) 
+        #print(sorted([j[0] for j in i]))
+        max_y_set.append(sorted([j[1] for j in i])[-1])
+    min_lat = sorted(min_y_set)[0]
+    max_lat = sorted(max_y_set)[-1]
+    print('min_lon , max_lon :',min_lon,max_lon)
+    print('min_lon,max_lon',min_lat,max_lat)
+
     
     # range requirement
     dfraw['inrange'] = dfraw.wgs_seq.map(lambda traj: sum([inrange(p[0], p[1]) for p in traj]) == len(traj) ) # True: valid
