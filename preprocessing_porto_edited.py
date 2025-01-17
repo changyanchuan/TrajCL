@@ -171,7 +171,7 @@ def generate_newsimi_test_dataset():
         query_lst = [] # [N, len, 2]
         db_lst = []
         i = 0
-        for _, v in test_trajs.merc_seq.iteritems():
+        for _, v in test_trajs.merc_seq.items():
             if i < n_query:
                 _q = np.array(v)[::2]
                 for _row in range(_q.shape[0]):
