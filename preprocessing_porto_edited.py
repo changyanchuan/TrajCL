@@ -130,7 +130,7 @@ def generate_newsimi_test_dataset():
         query_lst = [] # [N, len, 2]
         db_lst = []
         i = 0
-        for _, v in test_trajs.merc_seq.iteritems():
+        for _, v in test_trajs.merc_seq.items():
             if i < n_query:
                 query_lst.append(np.array(v)[::2].tolist())
             db_lst.append(np.array(v)[1::2].tolist())
@@ -148,7 +148,7 @@ def generate_newsimi_test_dataset():
         query_lst = [] # [N, len, 2]
         db_lst = []
         i = 0
-        for _, v in test_trajs.merc_seq.iteritems():
+        for _, v in test_trajs.merc_seq.items():
             if i < n_query:
                 _q = np.array(v)[::2]
                 _q_len = _q.shape[0]
