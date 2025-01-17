@@ -43,7 +43,7 @@ def clean_and_output_data():
      # 2. โหลดข้อมูลจากไฟล์ CSV
     dfraw = pd.read_csv(Config.root_dir + '/data/porto.csv')
     print('1')
-    dfraw = dfraw[:100] #delete this
+    dfraw = dfraw[:100000] #delete this
     dfraw = dfraw.rename(columns = {"POLYLINE": "wgs_seq"}) # เปลี่ยนชื่อคอลัมน์ "POLYLINE" เป็น "wgs_seq"
 
     dfraw = dfraw[dfraw.MISSING_DATA == False]
