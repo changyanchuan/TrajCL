@@ -42,7 +42,8 @@ def clean_and_output_data():
     # download train.csv.zip and unzip it. rename train.csv to porto.csv
      # 2. โหลดข้อมูลจากไฟล์ CSV
     dfraw = pd.read_csv(Config.root_dir + '/data/porto.csv')
-    dfraw = dfraw[:100]
+    print('1')
+    dfraw = dfraw[:100] #delete this
     dfraw = dfraw.rename(columns = {"POLYLINE": "wgs_seq"}) # เปลี่ยนชื่อคอลัมน์ "POLYLINE" เป็น "wgs_seq"
 
     dfraw = dfraw[dfraw.MISSING_DATA == False]
@@ -88,6 +89,7 @@ def clean_and_output_data():
     dfraw = dfraw[['trajlen', 'wgs_seq', 'merc_seq']].reset_index(drop = True)
 
     dfraw.to_pickle(Config.dataset_file)
+    print('Exported')
     logging.info('Preprocess end. @={:.0f}'.format(time.time() - _time))
     return
 
