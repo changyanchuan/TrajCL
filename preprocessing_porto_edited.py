@@ -242,7 +242,7 @@ def _normalization(lst_df):
     xs = []
     ys = []
     for df in lst_df:
-        for _, v in df.merc_seq.iteritems():
+        for _, v in df.merc_seq.items():
             arr = np.array(v)
             xs.append(arr[:,0])
             ys.append(arr[:,1])
@@ -283,7 +283,7 @@ def _simi_matrix(fn, df):
             tasks.append( (fn, df, list(range(batch_size * i, l))) )
     
     assert num_cores > 0
-    num_cores = int(mp.cpu_count()) - 6
+    num_cores = int(mp.cpu_count()) 
     logging.info("pool.size={}".format(num_cores))
     pool = mp.Pool(num_cores)
     lst_simi = pool.starmap(_simi_comp_operator, tasks)
