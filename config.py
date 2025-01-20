@@ -100,6 +100,13 @@ class Config:
             cls.min_lat = 41.1001
             cls.max_lon = -8.5192
             cls.max_lat = 41.2086
+
+        elif 'Bangkok' == cls.dataset:
+            cls.dataset_prefix = 'Bangkok_100'
+            cls.min_lon = -8.7005
+            cls.min_lat = 41.1001
+            cls.max_lon = -8.5192
+            cls.max_lat = 41.2086
         else:
             pass
         
