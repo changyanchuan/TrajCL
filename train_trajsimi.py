@@ -32,7 +32,7 @@ def main():
     trajcl.to(Config.device)
     task = TrajSimi(trajcl)
     tasktrain = task.train()
-    pred_l1_simi_np,truth_l1_simi_np = tasktrain['pred_l1_simi_np'],trasktrain['truth_l1_simi_np']
+    pred_l1_simi_np,truth_l1_simi_np = tasktrain['pred_l1_simi_np'],tasktrain['truth_l1_simi_np']
     # ลบ key และ value ออกจาก dictionary
     del tasktrain['pred_l1_simi_np']
     del tasktrain['truth_l1_simi_np']
