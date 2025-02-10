@@ -88,7 +88,7 @@ def clean_and_output_data():
     logging.info('Preprocessed-output. #traj={}'.format(dfraw.shape[0]))
     dfraw = dfraw[['trajlen', 'wgs_seq', 'merc_seq']].reset_index(drop = True)
 
-    dfraw.to_pickle(Config.dataset_file)
+    dfraw.to_pickle(Config.dataset_file,protocol = 4)
     print('Exported')
     logging.info('Preprocess end. @={:.0f}'.format(time.time() - _time))
     return
@@ -323,8 +323,8 @@ if __name__ == '__main__':
                         handlers = [logging.FileHandler(Config.root_dir+'/exp/log/'+tool_funcs.log_file_name(), mode = 'w'), 
                                     logging.StreamHandler()]
                         )
-    # Config.dataset = 'porto'
-    # Config.post_value_updates()
+    Config.dataset = 'porto'
+    Config.post_value_updates()
     print('HELLO WORLD')
     # clean_and_output_data()
     # init_cellspace()
