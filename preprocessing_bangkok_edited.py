@@ -281,7 +281,7 @@ def _simi_matrix(fn, df):
             tasks.append( (fn, df, list(range(batch_size * i, batch_size * (i+1)))) )
         else:
             tasks.append( (fn, df, list(range(batch_size * i, l))) )
-    
+    num_cores = int(mp.cpu_count())
     assert num_cores > 0
     num_cores = int(mp.cpu_count()) 
     logging.info("pool.size={}".format(num_cores))
