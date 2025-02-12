@@ -41,9 +41,9 @@ def clean_and_output_data():
     # https://archive.ics.uci.edu/ml/machine-learning-databases/00339/
     # download train.csv.zip and unzip it. rename train.csv to porto.csv
      # 2. โหลดข้อมูลจากไฟล์ CSV
-    dfraw = pd.read_csv(Config.root_dir + '/data/porto.csv')
+    dfraw = pd.read_csv(Config.root_dir + '/data/Bangkok.csv')
     print('1')
-    dfraw = dfraw[:100000] #delete this
+    #dfraw = dfraw[:100000] #delete this
     dfraw = dfraw.rename(columns = {"POLYLINE": "wgs_seq"}) # เปลี่ยนชื่อคอลัมน์ "POLYLINE" เป็น "wgs_seq"
 
     dfraw = dfraw[dfraw.MISSING_DATA == False]
@@ -51,7 +51,7 @@ def clean_and_output_data():
     # length requirement
     dfraw.wgs_seq = dfraw.wgs_seq.apply(literal_eval)
     dfraw['trajlen'] = dfraw.wgs_seq.apply(lambda traj: len(traj))
-    dfraw = dfraw[(dfraw.trajlen >= Config.min_traj_len) & (dfraw.trajlen <= Config.max_traj_len)]
+    dfraw = dfraw[(dfraw.trajlen >= Config.min_traj_len) & (dfraw.trajlen <= Config.max_traj_len)*100]
     logging.info('Preprocessed-rm length. #traj={}'.format(dfraw.shape[0]))
     # calc min,max (lon,lat ) (x,y) ##################################
     min_x_set = list()
@@ -108,7 +108,7 @@ def init_cellspace():
     cell_size = int(Config.cell_size)
     cs = CellSpace(cell_size, cell_size, x_min, y_min, x_max, y_max)
     with open(Config.dataset_cell_file, 'wb') as fh:
-        pickle.dump(cs, fh, protocol = pickle.HIGHEST_PROTOCOL)
+        pickle.dump(cs, fh, protocol = 4)
 
     _, edge_index = cs.all_neighbour_cell_pairs_permutated_optmized()
     edge_index = torch.tensor(edge_index, dtype = torch.long, device = Config.device).T
@@ -138,7 +138,7 @@ def generate_newsimi_test_dataset():
 
         output_file_name = Config.dataset_file + '_newsimi_raw.pkl'
         with open(output_file_name, 'wb') as fh:
-            pickle.dump( (query_lst, db_lst) , fh, protocol = pickle.HIGHEST_PROTOCOL)
+            pickle.dump( (query_lst, db_lst) , fh, protocol = 4)
             logging.info("_raw_dataset done.")
         return
 
@@ -162,7 +162,7 @@ def generate_newsimi_test_dataset():
 
         output_file_name = Config.dataset_file + '_newsimi_downsampling_' + str(rate) + '.pkl'
         with open(output_file_name, 'wb') as fh:
-            pickle.dump( (query_lst, db_lst) , fh, protocol = pickle.HIGHEST_PROTOCOL)
+            pickle.dump( (query_lst, db_lst) , fh, protocol = 4)
             logging.info("_downsample_dataset done. rate={}".format(rate))
         return
 
@@ -188,7 +188,7 @@ def generate_newsimi_test_dataset():
 
         output_file_name = Config.dataset_file + '_newsimi_distort_' + str(rate) + '.pkl'
         with open(output_file_name, 'wb') as fh:
-            pickle.dump( (query_lst, db_lst) , fh, protocol = pickle.HIGHEST_PROTOCOL)
+            pickle.dump( (query_lst, db_lst) , fh, protocol = 4)
             logging.info("_distort_dataset done. rate={}".format(rate))
         return
     
@@ -231,7 +231,7 @@ def traj_simi_computation(fn_name = 'hausdorff'):
     _output_file = '{}_traj_simi_dict_{}.pkl'.format(Config.dataset_file, fn_name)
     with open(_output_file, 'wb') as fh:
         tup = trains_simi, evals_simi, tests_simi, max_distance
-        pickle.dump(tup, fh, protocol = pickle.HIGHEST_PROTOCOL)
+        pickle.dump(tup, fh, protocol = 4)
     
     logging.info("traj_simi_computation ends. @={:.3f}".format(time.time() - _time))
     return tup
@@ -326,7 +326,10 @@ if __name__ == '__main__':
     Config.dataset = 'porto'
     Config.post_value_updates()
     print('HELLO WORLD')
-    # clean_and_output_data()
-    # init_cellspace()
-    # generate_newsimi_test_dataset()
-    #traj_simi_computation('edwp') # edr edwp discret_frechet hausdorff
+    clean_and_output_data()
+    print('Clean and output done')
+    init_cellspace()
+    print('init_cellspace done')
+    generate_newsimi_test_dataset()
+    print('generate_newsimi done')
+    traj_simi_computation('edwp') # edr edwp discret_frechet hausdorff
