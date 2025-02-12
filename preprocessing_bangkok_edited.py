@@ -51,7 +51,7 @@ def clean_and_output_data():
     # length requirement
     dfraw.wgs_seq = dfraw.wgs_seq.apply(literal_eval)
     dfraw['trajlen'] = dfraw.wgs_seq.apply(lambda traj: len(traj))
-    dfraw = dfraw[(dfraw.trajlen >= Config.min_traj_len) & (dfraw.trajlen <= Config.max_traj_len)*100]
+    dfraw = dfraw[(dfraw.trajlen >= Config.min_traj_len) & (dfraw.trajlen <= Config.max_traj_len*100)]
     logging.info('Preprocessed-rm length. #traj={}'.format(dfraw.shape[0]))
     # calc min,max (lon,lat ) (x,y) ##################################
     min_x_set = list()
