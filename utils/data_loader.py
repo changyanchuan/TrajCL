@@ -45,9 +45,9 @@ def read_trajsimi_traj_dataset(file_path):
 
     df_trajs = pd.read_pickle(file_path)
     offset_idx = int(df_trajs.shape[0] * 0.7) # use eval dataset
-    df_trajs = df_trajs.iloc[offset_idx : offset_idx + 6000]
-    assert df_trajs.shape[0] == 6000
-    l = 6000
+    df_trajs = df_trajs.iloc[offset_idx : offset_idx + 10000]
+    assert df_trajs.shape[0] == 10000
+    l = 10000
 
     train_idx = (int(l*0), int(l*0.7))
     eval_idx = (int(l*0.7), int(l*0.8))
