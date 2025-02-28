@@ -1,5 +1,10 @@
 import sys
 sys.path.append('..')
+sys.path.append('/content/TrajCL')# for colab
+sys.path.append('/content/traj-dist')#for colab
+sys.path.append('/content/traj-dist/traj_dist')#for colab
+sys.path.append('/content/traj-dist/traj_dist/cydist')#for colab
+sys.path.append('/content/traj-dist/traj_dist/pydist')#for colab
 import os
 import math
 import time
@@ -250,7 +255,8 @@ def _simi_matrix(fn, df):
             tasks.append( (fn, df, list(range(batch_size * i, batch_size * (i+1)))) )
         else:
             tasks.append( (fn, df, list(range(batch_size * i, l))) )
-    
+            
+    num_cores = int(mp.cpu_count()) - 6 # golphy
     assert num_cores > 0
     num_cores = int(mp.cpu_count()) - 6
     logging.info("pool.size={}".format(num_cores))
@@ -292,10 +298,10 @@ if __name__ == '__main__':
                         handlers = [logging.FileHandler(Config.root_dir+'/exp/log/'+tool_funcs.log_file_name(), mode = 'w'), 
                                     logging.StreamHandler()]
                         )
-    Config.dataset = 'porto'
+    Config.dataset = 'Bangkok' # porto or Bangkok 
     Config.post_value_updates()
 
-    # clean_and_output_data()
-    # init_cellspace()
-    # generate_newsimi_test_dataset()
-    traj_simi_computation('edwp') # edr edwp discret_frechet hausdorff
+    clean_and_output_data()
+    init_cellspace()
+    generate_newsimi_test_dataset()
+    traj_simi_computation('discret_frechet') # edr edwp discret_frechet hausdorff
