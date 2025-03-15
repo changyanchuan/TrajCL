@@ -32,10 +32,11 @@ def main():
     trajcl.to(Config.device)
     task = TrajSimi(trajcl)
     tasktrain = task.train()
-    pred_l1_simi_np,truth_l1_simi_np = tasktrain['pred_l1_simi_np'],tasktrain['truth_l1_simi_np']
+    pred_l1_simi_np,truth_l1_simi_np,datasets_simi2_np = tasktrain['pred_l1_simi_np'],tasktrain['truth_l1_simi_np'],tasktrain['datasets_simi2_np']
     # ลบ key และ value ออกจาก dictionary
     del tasktrain['pred_l1_simi_np']
     del tasktrain['truth_l1_simi_np']
+    del tasktrain['datasets_simi2_np']
     metrics.add(tasktrain)
     # Ensure that the directory exists
     log_dir = os.path.join(Config.root_dir, 'exp', 'log')
@@ -45,10 +46,12 @@ def main():
     # Define file paths
     pred_file_path = os.path.join(log_dir, 'pred_l1_simi.npy')
     truth_file_path = os.path.join(log_dir, 'truth_l1_simi.npy')
+    datasets_file_path = os.path.join(log_dir, 'datasets_simi2_np')
 
     # Save the arrays as .npy files in the log folder
     np.save(pred_file_path, pred_l1_simi_np)
     np.save(truth_file_path, truth_l1_simi_np)
+    np.save(datasets_file_path, datasets_simi2_np)
     
     logging.info('[EXPFlag]model={},dataset={},fn={},{}'.format( \
                 enc_name, Config.dataset_prefix, fn_name, str(metrics)))
