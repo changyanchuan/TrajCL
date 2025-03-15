@@ -157,7 +157,8 @@ class TrajSimi:
                 'task_test_ram': test_metrics[5], \
                 'hr5':test_metrics[1], 'hr20':test_metrics[2], 'hr20in5':test_metrics[3], \
                 'pred_l1_simi_np':test_metrics[6], \
-                'truth_l1_simi_np':test_metrics[7]}
+                'truth_l1_simi_np':test_metrics[7], \
+               'datasets_simi2_np' :test_metrics[8]} #golphy 3/15/25
 
 
     @torch.no_grad()
@@ -175,7 +176,9 @@ class TrajSimi:
         self.encoder.eval()
 
         datasets_simi = torch.tensor(datasets_simi, device = Config.device, dtype = torch.float)
+        datasets_simi2 = datasets_simi # golphy 3/15/25
         datasets_simi = (datasets_simi + datasets_simi.T) / max_distance
+        print('---------------THIS IS MAX_DISTANCE JAAAA : ',max_distance) # golphy 3/15/25
         traj_outs = []
 
         # get traj embeddings 
@@ -195,6 +198,7 @@ class TrajSimi:
         # ดึง similarity matrix เป็น numpy array
         pred_l1_simi_np = pred_l1_simi.cpu().numpy()
         truth_l1_simi_np = truth_l1_simi.cpu().numpy()
+        datasets_simi2_np = datasets_simi2.cpu().numpy()
         
         # metrics
         loss = self.criterion(pred_l1_simi_seq, truth_l1_simi_seq)
@@ -204,7 +208,7 @@ class TrajSimi:
         gpu = tool_funcs.GPUInfo.mem()[0]
         ram = tool_funcs.RAMInfo.mem()
 
-        return loss.item(), hrA, hrB, hrBinA, gpu, ram, pred_l1_simi_np, truth_l1_simi_np
+        return loss.item(), hrA, hrB, hrBinA, gpu, ram, pred_l1_simi_np, truth_l1_simi_np, datasets_simi2_np
 
   
     # data generator - for test
