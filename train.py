@@ -37,5 +37,6 @@ if __name__ == '__main__':
     trajcl = TrajCLTrainer(Config.trajcl_aug1, Config.trajcl_aug2)
     trajcl.train()
     trajcl.test()
-    
+    #trajcl_aug1 = 'mask'
+    #trajcl_aug2 = 'subset'
     

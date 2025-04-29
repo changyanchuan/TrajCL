@@ -1,5 +1,10 @@
 import sys
 sys.path.append('..')
+sys.path.append('/content/TrajCL')# for colab
+sys.path.append('/content/traj-dist')#for colab
+sys.path.append('/content/traj-dist/traj_dist')#for colab
+sys.path.append('/content/traj-dist/traj_dist/cydist')#for colab
+sys.path.append('/content/traj-dist/traj_dist/pydist')#for colab
 import os
 import math
 import time
@@ -22,8 +27,8 @@ from model.node2vec_ import train_node2vec
 from utils.edwp import edwp
 from utils.data_loader import read_trajsimi_traj_dataset
 
-
-def inrange(lon, lat):
+#เช็คว่าอยู่ในช่วงมั้ย 
+def inrange(lon, lat): 
     if lon <= Config.min_lon or lon >= Config.max_lon \
             or lat <= Config.min_lat or lat >= Config.max_lat:
         return False
@@ -31,11 +36,13 @@ def inrange(lon, lat):
 
 
 def clean_and_output_data():
-    _time = time.time()
+    # 1. บันทึกเวลาเริ่มต้น
+    _time = time.time() 
     # https://archive.ics.uci.edu/ml/machine-learning-databases/00339/
     # download train.csv.zip and unzip it. rename train.csv to porto.csv
+     # 2. โหลดข้อมูลจากไฟล์ CSV
     dfraw = pd.read_csv(Config.root_dir + '/data/porto.csv')
-    dfraw = dfraw.rename(columns = {"POLYLINE": "wgs_seq"})
+    dfraw = dfraw.rename(columns = {"POLYLINE": "wgs_seq"}) # เปลี่ยนชื่อคอลัมน์ "POLYLINE" เป็น "wgs_seq"
 
     dfraw = dfraw[dfraw.MISSING_DATA == False]
 
@@ -50,7 +57,7 @@ def clean_and_output_data():
     dfraw = dfraw[dfraw.inrange == True]
     logging.info('Preprocessed-rm range. #traj={}'.format(dfraw.shape[0]))
 
-    # convert to Mercator
+    # convert to Mercator  # 6. แปลงพิกัดเส้นทาง (WGS84) เป็นระบบเมอร์เคเตอร์ (Mercator)
     dfraw['merc_seq'] = dfraw.wgs_seq.apply(lambda traj: [list(lonlat2meters(p[0], p[1])) for p in traj])
 
     logging.info('Preprocessed-output. #traj={}'.format(dfraw.shape[0]))
@@ -248,7 +255,8 @@ def _simi_matrix(fn, df):
             tasks.append( (fn, df, list(range(batch_size * i, batch_size * (i+1)))) )
         else:
             tasks.append( (fn, df, list(range(batch_size * i, l))) )
-    
+            
+    num_cores = int(mp.cpu_count()) - 6 # golphy
     assert num_cores > 0
     num_cores = int(mp.cpu_count()) - 6
     logging.info("pool.size={}".format(num_cores))
@@ -290,10 +298,10 @@ if __name__ == '__main__':
                         handlers = [logging.FileHandler(Config.root_dir+'/exp/log/'+tool_funcs.log_file_name(), mode = 'w'), 
                                     logging.StreamHandler()]
                         )
-    Config.dataset = 'porto'
+    Config.dataset = 'Bangkok' # porto or Bangkok 
     Config.post_value_updates()
 
-    # clean_and_output_data()
-    # init_cellspace()
-    # generate_newsimi_test_dataset()
-    traj_simi_computation('edwp') # edr edwp discret_frechet hausdorff
+    clean_and_output_data()
+    init_cellspace()
+    generate_newsimi_test_dataset()
+    traj_simi_computation('discret_frechet') # edr edwp discret_frechet hausdorff
