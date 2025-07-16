@@ -6,7 +6,7 @@ Author's note in 2025:
 
 If you're working on a graduation project or trying to compare a SOTA trajectory similarity method in a paper, I recommend checking out my latest work, [TSMini](https://github.com/changyanchuan/TSMini). It's not only methodologically simpler, but I also refactored a lot of the code in this repo, so it runs much faster with lower memory overall.
 
-The experimental results are very strong — honestly better than many existing methods — but for some reason, the paper just hasn’t been accepted yet. I’m not sure why. Thank you.
+The experimental results are very strong — honestly better than many existing methods. With little luck, the paper just hasn’t been accepted yet. Thank you.
 
 ------------------------------------------
 
